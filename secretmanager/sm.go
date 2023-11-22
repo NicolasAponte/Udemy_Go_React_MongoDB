@@ -1,4 +1,4 @@
-package secretmanagergo
+package secretmanager
 
 import (
 	"encoding/json"
