@@ -11,7 +11,7 @@ import (
 	"github.com/naponte/Udemy_Go_React_MongoDB/bd"
 	"github.com/naponte/Udemy_Go_React_MongoDB/handlers"
 	"github.com/naponte/Udemy_Go_React_MongoDB/models"
-	secretmanagergo "github.com/naponte/Udemy_Go_React_MongoDB/secretmanager.go"
+	secretmanagergo "github.com/naponte/Udemy_Go_React_MongoDB/secretmanager"
 )
 
 func main() {
