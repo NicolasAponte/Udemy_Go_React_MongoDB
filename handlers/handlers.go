@@ -8,6 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/naponte/Udemy_Go_React_MongoDB/jwt"
 	"github.com/naponte/Udemy_Go_React_MongoDB/models"
+	"github.com/naponte/Udemy_Go_React_MongoDB/routers"
 	"github.com/naponte/Udemy_Go_React_MongoDB/utils"
 )
 
@@ -26,10 +27,13 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 	switch ctx.Value(models.Key("method")).(string) {
 	case "POST":
 		switch ctx.Value(models.Key("path")).(string) {
+		case "registration":
+			return routers.Registration(ctx)
 		}
 	case "GET":
 		switch ctx.Value(models.Key("path")).(string) {
-
+		case "ping":
+			return routers.Ping(ctx)
 		}
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
@@ -46,7 +50,7 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 }
 
 func validateAuthorization(ctx context.Context, request events.APIGatewayProxyRequest) (bool, int, string, models.Claim) {
-	noAutorization := []string{"registration", "login", "getAvatar", "getBanner"}
+	noAutorization := []string{"registration", "login", "getAvatar", "getBanner", "ping"}
 	path := ctx.Value(models.Key("path")).(string)
 	if utils.SliceContains(path, noAutorization) {
 		return true, http.StatusOK, "", models.Claim{}
