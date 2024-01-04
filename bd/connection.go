@@ -19,7 +19,7 @@ func InitConnection(ctx context.Context) error {
 	password := ctx.Value(models.Key("password")).(string)
 	host := ctx.Value(models.Key("host")).(string)
 
-	connStr := fmt.Sprintf("MongoDb+srv://%s:/%s@/%s?retryWrites=true&w=majority", user, password, host)
+	connStr := fmt.Sprintf("mongodb+srv://%s:%s@%s/?retryWrites=true&w=majority", user, password, host)
 
 	var clientOptions = options.Client().ApplyURI(connStr)
 

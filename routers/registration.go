@@ -58,5 +58,5 @@ func Registration(ctx context.Context) models.Response {
 	r.Status = 200
 	r.Message = "Successful regitration"
 	fmt.Println(r.Message)
-	return models.Response{}
+	return r
 }
