@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/naponte/Udemy_Go_React_MongoDB/bd"
 	"github.com/naponte/Udemy_Go_React_MongoDB/models"
 )
 
@@ -26,8 +27,13 @@ func ProcessToken(token string, JWTSign string) (*models.Claim, bool, string, er
 	tk, err := jwt.ParseWithClaims(token, &claims, func(token *jwt.Token) (interface{}, error) {
 		return pass, nil
 	})
-	if err != nil {
-		// Rutina contra BD
+	if err == nil {
+		_, find, _ := bd.UserAlreadyExists(claims.Email)
+		if find {
+			Email = claims.Email
+			IDUsuario = claims.ID.Hex()
+		}
+		return &claims, find, IDUsuario, nil
 	}
 
 	if !tk.Valid {
