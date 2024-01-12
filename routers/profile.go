@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -37,4 +38,34 @@ func GetProfile(req events.APIGatewayProxyRequest) models.Response {
 	response.Status = 200
 	response.Message = string(respJson)
 	return response
+}
+
+func UpdateProfile(ctx context.Context, claim models.Claim) models.Response {
+	var response models.Response
+	response.Status = 400
+
+	var user models.User
+
+	body := ctx.Value(models.Key("body")).(string)
+	err := json.Unmarshal([]byte(body), &user)
+	if err != nil {
+		response.Message = "Error unmarshaling body " + err.Error()
+		return response
+	}
+
+	status, err := bd.UpdateProfile(user, claim.ID.Hex())
+	if err != nil {
+		response.Message = "Error updating user " + err.Error()
+		return response
+	}
+
+	if !status {
+		response.Message = "Updating wasn't possible"
+		return response
+	}
+
+	response.Status = 200
+	response.Message = "Update Successful"
+	return response
+
 }

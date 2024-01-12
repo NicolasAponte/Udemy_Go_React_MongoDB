@@ -30,13 +30,13 @@ func Login(ctx context.Context) models.Response {
 		return response
 	}
 
-	_, exists := bd.Login(user.Email, user.Password)
+	userData, exists := bd.Login(user.Email, user.Password)
 	if !exists {
 		response.Message = "Invalid Email or Password"
 		return response
 	}
 
-	jwtKey, err := jwt.TokenGeneration(ctx, user)
+	jwtKey, err := jwt.TokenGeneration(ctx, userData)
 	if err != nil {
 		response.Message = "Error in token generation: " + err.Error()
 		return response
