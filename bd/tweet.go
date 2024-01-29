@@ -64,3 +64,20 @@ func SelectTweets(ID string, page int64) ([]*models.SelectedTweet, bool) {
 
 	return result, true
 }
+
+func DeleteTweet(ID string, UserID string) error {
+	ctx := context.TODO()
+
+	db := MongoClient.Database(DatabaseName)
+	col := db.Collection("tweet")
+
+	objID, _ := primitive.ObjectIDFromHex(ID)
+
+	filter := bson.M{
+		"_id":     objID,
+		"user_id": UserID,
+	}
+
+	_, err := col.DeleteOne(ctx, filter)
+	return err
+}
