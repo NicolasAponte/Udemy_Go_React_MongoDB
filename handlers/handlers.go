@@ -37,6 +37,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 			return routers.UploadImage(ctx, "A", request, claim)
 		case "banner":
 			return routers.UploadImage(ctx, "B", request, claim)
+		case "relation":
+			return routers.CreateRelation(ctx, request, claim)
 		}
 	case "GET":
 		switch ctx.Value(models.Key("path")).(string) {
@@ -50,6 +52,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 			return routers.GetImage(ctx, "A", request, claim)
 		case "getBanner":
 			return routers.GetImage(ctx, "B", request, claim)
+		case "relation":
+			return routers.GetRelation(request, claim)
 		}
 	case "PUT":
 		switch ctx.Value(models.Key("path")).(string) {
@@ -60,6 +64,8 @@ func Handlers(ctx context.Context, request events.APIGatewayProxyRequest) models
 		switch ctx.Value(models.Key("path")).(string) {
 		case "deleteTweet":
 			return routers.DeleteTweet(request, claim)
+		case "relation":
+			return routers.DeleteRelation(request, claim)
 		}
 	}
 
